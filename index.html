@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>This Is Miss Sally</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --gold: #D4AF37;
+      --gold-light: #E8D48B;
+      --gold-dark: #B8941E;
+      --black: #0A0A0A;
+      --black-soft: #141414;
+      --white: #F5F0E8;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: none;
+      color: var(--white);
+      font-family: 'Cormorant Garamond', 'Georgia', serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Hero Section ─────────────────────────── */
+    .hero {
+      position: relative;
+      width: 100%;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      margin-bottom: 0;
+      background: none;
+    }
+
+    .hero-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    .hero-bg img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 20%;
+    }
+
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.18) 0%,
+        rgba(0, 0, 0, 0.3) 30%,
+        rgba(0, 0, 0, 0.55) 60%,
+        rgba(0, 0, 0, 0.82) 85%,
+        rgba(0, 0, 0, 0.93) 100%
+      );
+      pointer-events: none;
+    }
+
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 6vh 2rem 0;
+      background: transparent;
+    }
+
+    .hero-rule {
+      width: 60px;
+      height: 1px;
+      background: var(--gold);
+      border: none;
+      margin: 0 auto 1.5rem;
+    }
+
+    .hero-name {
+      font-family: 'Playfair Display', 'Georgia', serif;
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--white);
+      line-height: 1.1;
+      margin-bottom: 0.4em;
+    }
+
+    .hero-name span {
+      display: block;
+      font-size: 0.35em;
+      letter-spacing: 0.35em;
+      background: linear-gradient(135deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 400;
+      margin-bottom: 0.8em;
+    }
+
+    .hero-tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1rem, 2.5vw, 1.35rem);
+      font-weight: 600;
+      font-style: italic;
+      letter-spacing: 0.08em;
+      background: linear-gradient(135deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.5)) drop-shadow(0 0 4px rgba(255, 255, 255, 0.3));
+    }
+
+    /* ── Divider ──────────────────────────────── */
+    .gold-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      padding: 0.4rem 2rem;
+    }
+
+    .gold-divider::before,
+    .gold-divider::after {
+      content: '';
+      flex: 1;
+      max-width: 120px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+    }
+
+    .gold-divider .diamond {
+      width: 6px;
+      height: 6px;
+      background: var(--gold);
+      transform: rotate(45deg);
+      flex-shrink: 0;
+    }
+
+    /* ── Signup Section ───────────────────────── */
+    .signup-section {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem 3rem;
+      text-align: center;
+    }
+
+    .signup-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.9rem, 4.5vw, 2.6rem);
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      background: linear-gradient(135deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1rem;
+    }
+
+    .signup-subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.15rem, 2.5vw, 1.4rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--white);
+      line-height: 1.6;
+      opacity: 0.85;
+      margin-bottom: 1.5rem;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .signup-exclusive {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.05rem, 2.2vw, 1.2rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--white);
+      line-height: 1.6;
+      opacity: 0.7;
+      margin-bottom: 1.5rem;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .signup-benefits {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      font-weight: 400;
+      background: linear-gradient(135deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      opacity: 0.75;
+      line-height: 1.9;
+      margin-bottom: 2rem;
+      letter-spacing: 0.02em;
+    }
+
+    .signup-form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .form-row input {
+      flex: 1;
+      background: rgba(245, 240, 232, 0.1);
+      border: 1px solid rgba(212, 175, 55, 0.5);
+      border-radius: 2px;
+      outline: none;
+      color: var(--white);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      letter-spacing: 0.04em;
+      padding: 0.9rem 1.2rem;
+      transition: border-color 0.3s ease, background 0.3s ease;
+    }
+
+    .form-row input:focus {
+      border-color: var(--gold);
+      background: rgba(212, 175, 55, 0.06);
+    }
+
+    .form-row input::placeholder {
+      color: rgba(245, 240, 232, 0.6);
+      font-style: italic;
+    }
+
+    .signup-submit {
+      background: linear-gradient(135deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
+      border: none;
+      border-radius: 2px;
+      color: var(--black);
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 1.1rem 2rem;
+      cursor: pointer;
+      transition: all 0.35s ease;
+      margin-top: 0.25rem;
+    }
+
+    .signup-submit:hover {
+      background: linear-gradient(135deg, #FCF6BA, #BF953F, #FBF5B7, #B38728, #FCF6BA);
+      box-shadow: 0 4px 24px rgba(212, 175, 55, 0.35);
+      transform: translateY(-1px);
+    }
+
+    .signup-submit:active {
+      transform: translateY(0);
+    }
+
+    /* ── Thank You State ─────────────────────── */
+    .thank-you {
+      display: none;
+      text-align: center;
+      padding: 2rem 0;
+    }
+
+    .thank-you.visible {
+      display: block;
+      animation: fadeUp 0.6s ease forwards;
+    }
+
+    .thank-you-rose {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .thank-you-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.4rem, 3.5vw, 1.8rem);
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      background: linear-gradient(135deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.75rem;
+    }
+
+    .thank-you-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--white);
+      opacity: 0.7;
+    }
+
+    /* ── Footer ───────────────────────────────── */
+    .footer {
+      text-align: center;
+      padding: 2rem 1.5rem 2.5rem;
+    }
+
+    .footer-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      opacity: 0.5;
+    }
+
+    /* ── Entrance Animations ─────────────────── */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .hero-content > * {
+      opacity: 0;
+      animation: fadeUp 1s ease forwards;
+    }
+    .hero-content > *:nth-child(1) { animation-delay: 0.5s; }
+    .hero-content > *:nth-child(2) { animation-delay: 0.8s; }
+    .hero-content > *:nth-child(3) { animation-delay: 1.1s; }
+
+    .signup-section > * {
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards;
+    }
+    .signup-section > *:nth-child(1) { animation-delay: 0.3s; }
+    .signup-section > *:nth-child(2) { animation-delay: 0.5s; }
+    .signup-section > *:nth-child(3) { animation-delay: 0.65s; }
+    .signup-section > *:nth-child(4) { animation-delay: 0.8s; }
+    .signup-section > *:nth-child(5) { animation-delay: 0.95s; }
+    .signup-section > *:nth-child(6) { animation-delay: 1.05s; }
+
+    /* ── Responsive ───────────────────────────── */
+    @media (max-width: 520px) {
+      .hero-content {
+        padding-top: 4vh;
+      }
+      .signup-section {
+        padding: 1.5rem 1.25rem 2.5rem;
+      }
+      .form-row {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-bg"><img src="images/IMG_6955.png" alt="Portrait of Miss Sally"></div>
+
+    <div class="hero-content">
+      <hr class="hero-rule">
+      <h1 class="hero-name">
+        <span>This Is</span>
+        Miss Sally
+      </h1>
+      <p class="hero-tagline">Content Creator &bull; Storyteller &bull; Dreamer</p>
+    </div>
+  </section>
+
+  <!-- Divider -->
+  <div class="gold-divider"><div class="diamond"></div></div>
+
+  <!-- Email Signup -->
+  <section class="signup-section">
+    <h2 class="signup-heading">Join My Inner Circle</h2>
+    <p class="signup-subtitle">Get exclusive updates direct from me. Behind the scenes, new content, fitness tips and things I only share with my inner circle.</p>
+    <p class="signup-exclusive">The list my followers don&rsquo;t know about. No spam, no sharing. Just me, in your inbox.</p>
+    <p class="signup-benefits">Be the first to know about new content and projects &middot; Behind the scenes updates &middot; Fitness and nutrition tips &middot; Early access to announcements &middot; Personal updates direct from Miss Sally</p>
+    <form class="signup-form" id="signupForm">
+      <div class="form-row">
+        <input type="text" name="firstName" placeholder="First name" required>
+        <input type="email" name="email" placeholder="Email address" required>
+      </div>
+      <button type="submit" class="signup-submit">Join the Inner Circle</button>
+    </form>
+    <div class="thank-you" id="thankYou">
+      <span class="thank-you-rose">🌹</span>
+      <h3 class="thank-you-heading">Welcome to the inner circle</h3>
+      <p class="thank-you-text">You're in. Keep an eye on your inbox.</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="gold-divider"><div class="diamond"></div></div>
+    <p class="footer-name">&copy; Miss Sally</p>
+  </footer>
+
+  <script>
+    document.getElementById('signupForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const firstName = form.firstName.value.trim();
+      const email = form.email.value.trim();
+
+      if (!firstName || !email) return;
+
+      // Attempt to save via local server
+      try {
+        await fetch('http://localhost:3456/subscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ firstName, email })
+        });
+      } catch {
+        // Server not running — data won't persist but UX still works
+      }
+
+      // Show thank-you state
+      form.style.display = 'none';
+      document.getElementById('thankYou').classList.add('visible');
+    });
+  </script>
+
+</body>
+</html>
