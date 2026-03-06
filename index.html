@@ -411,9 +411,10 @@
     <p class="signup-subtitle">Get exclusive updates direct from me. Behind the scenes, new content, fitness tips and things I only share with my inner circle.</p>
     <p class="signup-exclusive">The list my followers don&rsquo;t know about. No spam, no sharing. Just me, in your inbox.</p>
     <p class="signup-benefits">Be the first to know about new content and projects &middot; Behind the scenes updates &middot; Fitness and nutrition tips &middot; Early access to announcements &middot; Personal updates direct from Miss Sally</p>
-    <form class="signup-form" id="signupForm">
+    <form class="signup-form" id="signupForm" action="https://formspree.io/f/mreyzwzl" method="POST">
+      <input type="hidden" name="_subject" value="New Inner Circle Signup">
       <div class="form-row">
-        <input type="text" name="firstName" placeholder="First name" required>
+        <input type="text" name="name" placeholder="First name" required>
         <input type="email" name="email" placeholder="Email address" required>
       </div>
       <button type="submit" class="signup-submit">Join the Inner Circle</button>
@@ -432,28 +433,11 @@
   </footer>
 
   <script>
-    document.getElementById('signupForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const form = e.target;
-      const firstName = form.firstName.value.trim();
-      const email = form.email.value.trim();
-
-      if (!firstName || !email) return;
-
-      // Attempt to save via local server
-      try {
-        await fetch('http://localhost:3456/subscribe', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ firstName, email })
-        });
-      } catch {
-        // Server not running — data won't persist but UX still works
-      }
-
-      // Show thank-you state
-      form.style.display = 'none';
-      document.getElementById('thankYou').classList.add('visible');
+    document.getElementById('signupForm').addEventListener('submit', function() {
+      setTimeout(function() {
+        document.getElementById('signupForm').style.display = 'none';
+        document.getElementById('thankYou').classList.add('visible');
+      }, 100);
     });
   </script>
 
