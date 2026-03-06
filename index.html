@@ -258,6 +258,31 @@
       font-style: italic;
     }
 
+    .signup-form textarea {
+      width: 100%;
+      background: rgba(245, 240, 232, 0.1);
+      border: 1px solid rgba(212, 175, 55, 0.5);
+      border-radius: 2px;
+      outline: none;
+      color: var(--white);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      letter-spacing: 0.04em;
+      padding: 0.9rem 1.2rem;
+      transition: border-color 0.3s ease, background 0.3s ease;
+      resize: vertical;
+    }
+
+    .signup-form textarea:focus {
+      border-color: var(--gold);
+      background: rgba(212, 175, 55, 0.06);
+    }
+
+    .signup-form textarea::placeholder {
+      color: rgba(245, 240, 232, 0.6);
+      font-style: italic;
+    }
+
     .signup-submit {
       background: linear-gradient(135deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
       border: none;
@@ -417,6 +442,7 @@
         <input type="text" name="name" placeholder="First name" required>
         <input type="email" name="email" placeholder="Email address" required>
       </div>
+      <textarea name="message" rows="4" placeholder="Say something that'll make my day…"></textarea>
       <button type="submit" class="signup-submit">Join the Inner Circle</button>
     </form>
     <div class="thank-you" id="thankYou">
