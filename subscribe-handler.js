@@ -119,6 +119,75 @@ async function subscribeEmail(email) {
   }
 }
 
+async function handleSubscribePayload(payload) {
+  const email = String(payload.email || "").trim().toLowerCase();
+
+  if (!email || !isValidEmail(email)) {
+    return {
+      statusCode: 422,
+      body: {
+        ok: false,
+        error: "Please enter a valid email address.",
+      },
+    };
+  }
+
+  try {
+    await subscribeEmail(email);
+    return {
+      statusCode: 200,
+      body: { ok: true },
+    };
+  } catch (error) {
+    const statusCode = error && typeof error.statusCode === "number" ? error.statusCode : 500;
+    const responseText = error && typeof error.responseText === "string" ? error.responseText : "";
+
+    console.error("MailerLite subscribe error", {
+      message: error instanceof Error ? error.message : String(error),
+      statusCode,
+      responseText,
+    });
+
+    if (statusCode === 401) {
+      return {
+        statusCode: 500,
+        body: {
+          ok: false,
+          error: "The signup service is unavailable right now. Please try again shortly.",
+        },
+      };
+    }
+
+    if (statusCode === 422) {
+      return {
+        statusCode: 422,
+        body: {
+          ok: false,
+          error: "Please enter a valid email address.",
+        },
+      };
+    }
+
+    if (error instanceof Error && error.name === "AbortError") {
+      return {
+        statusCode: 504,
+        body: {
+          ok: false,
+          error: "That took too long. Please try again.",
+        },
+      };
+    }
+
+    return {
+      statusCode: 500,
+      body: {
+        ok: false,
+        error: "Something went wrong. Please try again in a moment.",
+      },
+    };
+  }
+}
+
 async function handleSubscribe(req, res) {
   if (req.method === "OPTIONS") {
     res.statusCode = 204;
@@ -133,52 +202,9 @@ async function handleSubscribe(req, res) {
 
   try {
     const body = await parseRequestBody(req);
-    const email = String(body.email || "").trim().toLowerCase();
-
-    if (!email || !isValidEmail(email)) {
-      sendJson(res, 422, {
-        ok: false,
-        error: "Please enter a valid email address.",
-      });
-      return;
-    }
-
-    await subscribeEmail(email);
-    sendJson(res, 200, { ok: true });
+    const result = await handleSubscribePayload(body);
+    sendJson(res, result.statusCode, result.body);
   } catch (error) {
-    const statusCode = error && typeof error.statusCode === "number" ? error.statusCode : 500;
-    const responseText = error && typeof error.responseText === "string" ? error.responseText : "";
-
-    console.error("MailerLite subscribe error", {
-      message: error instanceof Error ? error.message : String(error),
-      statusCode,
-      responseText,
-    });
-
-    if (statusCode === 401) {
-      sendJson(res, 500, {
-        ok: false,
-        error: "The signup service is unavailable right now. Please try again shortly.",
-      });
-      return;
-    }
-
-    if (statusCode === 422) {
-      sendJson(res, 422, {
-        ok: false,
-        error: "Please enter a valid email address.",
-      });
-      return;
-    }
-
-    if (error instanceof Error && error.name === "AbortError") {
-      sendJson(res, 504, {
-        ok: false,
-        error: "That took too long. Please try again.",
-      });
-      return;
-    }
-
     sendJson(res, 500, {
       ok: false,
       error: "Something went wrong. Please try again in a moment.",
@@ -188,4 +214,5 @@ async function handleSubscribe(req, res) {
 
 module.exports = {
   handleSubscribe,
+  handleSubscribePayload,
 };

@@ -1,0 +1,8 @@
+[build]
+  functions = "netlify/functions"
+
+[[redirects]]
+  from = "/api/subscribe"
+  to = "/.netlify/functions/subscribe"
+  status = 200
+  force = true
