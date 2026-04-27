@@ -309,6 +309,26 @@
       transform: translateY(0);
     }
 
+    .signup-submit:disabled {
+      cursor: wait;
+      opacity: 0.8;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .form-feedback {
+      display: none;
+      margin-top: 0.85rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      color: #f5d6d6;
+      opacity: 0.9;
+    }
+
+    .form-feedback.visible {
+      display: block;
+    }
+
     /* ── Thank You State ─────────────────────── */
     .thank-you {
       display: none;
@@ -436,7 +456,7 @@
     <p class="signup-subtitle">Get exclusive updates direct from me. Behind the scenes, new content, fitness tips and things I only share with my inner circle.</p>
     <p class="signup-exclusive">The list my followers don&rsquo;t know about. No spam, no sharing. Just me, in your inbox.</p>
     <p class="signup-benefits">Be the first to know about new content and projects &middot; Behind the scenes updates &middot; Fitness and nutrition tips &middot; Early access to announcements &middot; Personal updates direct from Miss Sally</p>
-    <form class="signup-form" id="signupForm" action="https://formspree.io/f/mreyzwzl" method="POST">
+    <form class="signup-form" id="signupForm" action="/api/subscribe" method="POST">
       <input type="hidden" name="_subject" value="New Inner Circle Signup">
       <div class="form-row">
         <input type="text" name="name" placeholder="First name" required>
@@ -445,6 +465,7 @@
       <textarea name="message" rows="2" placeholder="Say something that'll make my day…"></textarea>
       <button type="submit" class="signup-submit">Join the Inner Circle</button>
     </form>
+    <p class="form-feedback" id="formFeedback" aria-live="polite"></p>
     <div class="thank-you" id="thankYou">
       <span class="thank-you-rose">🌹</span>
       <h3 class="thank-you-heading">Welcome to the inner circle</h3>
@@ -459,11 +480,52 @@
   </footer>
 
   <script>
-    document.getElementById('signupForm').addEventListener('submit', function() {
-      setTimeout(function() {
-        document.getElementById('signupForm').style.display = 'none';
-        document.getElementById('thankYou').classList.add('visible');
-      }, 100);
+    const signupForm = document.getElementById('signupForm');
+    const thankYou = document.getElementById('thankYou');
+    const formFeedback = document.getElementById('formFeedback');
+    const submitButton = signupForm.querySelector('.signup-submit');
+    const defaultButtonText = submitButton.textContent;
+
+    signupForm.addEventListener('submit', async function(event) {
+      event.preventDefault();
+
+      formFeedback.textContent = '';
+      formFeedback.classList.remove('visible');
+      submitButton.disabled = true;
+      submitButton.textContent = 'Joining...';
+
+      try {
+        const formData = new FormData(signupForm);
+        const response = await fetch(signupForm.action, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            email: formData.get('email'),
+            name: formData.get('name'),
+            message: formData.get('message')
+          })
+        });
+
+        const payload = await response.json().catch(function() {
+          return {};
+        });
+
+        if (!response.ok || !payload.ok) {
+          throw new Error(payload.error || 'Something went wrong. Please try again in a moment.');
+        }
+
+        signupForm.style.display = 'none';
+        thankYou.classList.add('visible');
+      } catch (error) {
+        formFeedback.textContent = error.message || 'Something went wrong. Please try again in a moment.';
+        formFeedback.classList.add('visible');
+      } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = defaultButtonText;
+      }
     });
   </script>
 
